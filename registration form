@@ -1,0 +1,102 @@
+#include<iostream>
+#include<fstream>
+using namespace std;
+class temp{
+    string username,password,email;
+    string searchname,searchpassword,searchemail;
+    fstream file;
+    public:
+    void login();
+    void signup();
+    void forgot();
+}obj;
+int main(){
+    char choice;
+    cout<<"\n1-login:";
+    cout<<"\n2-signup:";
+    cout<<"\n3-forgot_password:";
+    cout<<"\n4-exit:";
+    cout<<"\nenter your choice : ";
+    cin>>choice;
+    switch(choice){
+        case '1':
+        cin.ignore();
+        obj.login();
+        break;
+         case '2':
+        cin.ignore();
+        obj.signup();
+        break;
+          case '3':
+        cin.ignore();
+        obj.forgot();
+        break;
+          case '4':
+        return 0;
+        break;
+    }
+}
+void temp::signup(){
+    cout<<"enter your name : ";
+    getline(cin,username);
+    cout<<"enter your email address : ";
+    getline(cin,email);
+    cout<<"enter your password : ";
+    getline(cin,password);
+    file.open("infodata.txt",ios::out | ios::app);
+    file<<username<<"*"<<email<<"*"<<password<<endl;
+    file.close();
+}
+void temp::login(){
+  cout<<"______________________login______________________________";
+  cout<<"\nenter your name : ";
+  getline(cin,searchname);
+  cout<<"enter your password : ";
+  getline(cin,searchpassword);
+  file.open("infodata.txt",ios::in);
+  getline(file,username,'*');
+  getline(file,email,'*');
+  getline(file,password,'\n');
+   while(!file.eof()){
+    if(username==searchname){
+        if(password==searchpassword){
+            cout<<"\naccount login successfully : ";
+            cout<<"\nyuor username is :"<<username;
+            cout<<"\nyour email is :"<<email;
+            cout<<"\nyour password is :"<<password;
+        }
+        else{
+            cout<<"wrong password";
+        }
+    }
+  getline(file,username,'*');
+  getline(file,email,'*');
+  getline(file,password,'\n');
+   }
+   file.close();
+}
+void temp::forgot(){
+    cout<<"\nenter your username : ";
+    getline(cin,searchname);
+    cout<<"enter your email : ";
+    getline(cin,searchemail);
+    file.open("infodata.txt",ios::in);
+  getline(file,username,'*');
+  getline(file,email,'*');
+  getline(file,password,'\n');
+  while(!file.eof()){
+    if(username==searchname){
+        if(email==searchemail){
+            cout<<"\naccount found :"<<endl;
+            cout<<"your password id :"<<password;
+        }
+        else{
+            cout<<"not found";
+        }
+    }
+  getline(file,username,'*');
+  getline(file,email,'*');
+  getline(file,password,'\n');
+  };
+  file.close();
+}
