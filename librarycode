@@ -1,0 +1,133 @@
+#include<iostream>
+#include<fstream>
+using namespace std;
+class temp{
+    string id,author,name,search;
+    fstream file;
+    public:
+    void show_all();
+    void extract();
+    void add_book();
+    void clear_all_data();
+}obj;
+int main(){
+    char choice;
+    while(choice!=4){
+    cout<<"\n\n_____________________[library system] __________________________";
+    cout<<"\n\n-------contact to hemant for admin login ----------";
+    cout<<"\n1-show all books :";
+    cout<<"\n2-extract books  :";
+    cout<<"\n3-ADMIN LOGIN :";
+    cout<<"\n4-exit:";
+    cout<<"\nenter your choice : ";
+    cin>>choice;
+    switch(choice){
+    case '1':
+        cin.ignore();
+       obj.show_all();
+       cin.get();
+    break;
+    case '2':
+         cin.ignore();
+        obj.extract();
+        cin.get();
+    break;
+    case '3':
+        cin.ignore();
+        obj.add_book();
+        cin.get();
+    break;
+    case '4':
+        return 0;
+    break;
+    default:
+     cout<<" invalid ";
+    }
+}
+
+}
+void temp::add_book(){
+    string  user1,user2,pass,pass2,suser,spass;
+     user1 = "hemant";
+     pass = "1234";
+     user2 = "yaqoob";
+     pass2 = "5678";
+    cout<<"\n_______________[ADMIN LOGIN]____________________";
+    cout<<"\n\nenter your username  : ";
+    getline(cin,suser);
+    cout<<"enter your password  : ";
+    getline(cin,spass);
+    if((suser==user1 && spass==pass)||(suser==user2 && spass==pass2)){{
+ cout<<"\n___________________login successfully you can add book________________________-";
+ if(suser==user1){
+    cout<<"\n_____login by "<<user1<<"_____";
+ }
+  if(suser==user2){
+    cout<<"\n_____login by "<<user2<<"______";
+ }
+ char choose;
+ cout<<"\n1-add_books : ";
+ cout<<"\n2-clear all books : ";
+cin>>choose;
+cin.ignore();
+switch(choose){
+    case '1':
+    cout<<"\n_____________adding books_________________";
+ cout<<"\n\nenter book name : ";
+ getline(cin,name);
+ cout<<"enter book id : ";
+ getline(cin,id);
+ cout<<"enter author name : ";
+ getline(cin,author);
+ file.open("bookdata.txt",ios::out | ios::app);
+ file<<id<<"*"<<name<<"*"<<author<<"\n";
+ file.close();
+ break;
+    
+    case '2':
+    clear_all_data();
+    break;
+}
+}
+}
+}
+void temp::show_all(){
+    file.open("bookdata.txt",ios::in);
+    getline(file,id,'*');
+    getline(file,name,'*');
+    getline(file,author,'\n');
+   
+    cout<<"\nBook_id\t\t\tBook_name\t\t\tAuthor_name";
+    while(!file.eof()){
+        cout<<"\n"<<id<<"\t\t\t"<<name<<"\t\t\t"<<author;
+
+    getline(file,id,'*');
+    getline(file,name,'*');
+    getline(file,author,'\n');
+    }
+    file.close();
+}
+void temp::extract(){
+    cout<<"\nenter Book_id : ";
+    getline(cin,search);
+    file.open("bookdata.txt",ios::in);
+    getline(file,id,'*');
+    getline(file,name,'*');
+    getline(file,author,'\n');
+
+    cout<<"\nBook_id\t\t\tBook_name\t\t\tAuthor_name";
+    while(!file.eof()){
+        if(id==search){
+            cout<<"\n"<<id<<"\t\t\t"<<name<<"\t\t\t"<<author;
+        }
+    getline(file,id,'*');
+    getline(file,name,'*');
+    getline(file,author,'\n');
+    }
+    file.close();
+}
+void temp::clear_all_data() {
+    ofstream file("bookdata.txt", ios::trunc); // 'trunc' poora data saaf kar deta hai
+    file.close();
+    cout << "\nFile cleared successfully!";
+}
