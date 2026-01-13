@@ -1,0 +1,182 @@
+#include<iostream>
+#include<fstream>
+#include<string>
+#include<iomanip>
+using namespace std;
+class temp{
+    string name,rollno,Class,address,phone_no,marks,std_id,sid,suser,spass;
+    string user,pass;
+    fstream file;
+    public:
+    void add_record();
+    void view_record();
+    void search_record();
+    void clear_all_data();
+}obj;
+int main(){
+    char choice;
+    while(choice!=4){
+     
+    cout<<"\n\n===============[student management system]====================";
+    cout<<"\n1-add student record :";
+    cout<<"\n2-view student record :";
+    cout<<"\n3-search student record :";
+    cout<<"\n4-exit :";
+    cout<<"\n===============================================================";
+    cout<<"\n enter your choice :";
+    cin>>choice;
+
+    switch(choice){
+        case '1':
+        cin.ignore();
+        obj.add_record();
+        break;
+        case '2':
+        cin.ignore();
+        obj.view_record();
+        break;
+        case '3':
+        cin.ignore();
+        obj.search_record();
+        break;
+        case '4':
+        cin.ignore();
+        obj.clear_all_data();
+        break;
+        defualt:
+            cout<<"invalid";
+
+    }
+    }
+   
+}
+void temp::add_record(){
+    cout<<"\n=====================[Admin login]======================";
+    user = "hemant";
+    pass = "123";
+    cout<<"\nenter user name :";
+    getline(cin,suser);
+    cout<<"enter password :";
+    getline(cin,spass);
+    if(suser==user&& spass==pass){
+        char choose;
+        cout<<"\n____________________________[Login successfully]__________________________";
+        cout<<"\n1-add student : ";
+        cout<<"\n2-reset student details : ";
+        cout<<"\nchoose what you want : ";
+        cin>>choose;
+        cin.ignore();
+        switch(choose){
+            case '1':  
+    cout<<"\n===================[Add student records]====================";
+    cout<<"\nstudent name : ";
+    getline(cin,name);
+    cout<<"student roll no :";
+    getline(cin,rollno);
+    cout<<"student Class : ";
+    getline(cin,Class);
+    cout<<"student address : ";
+    getline(cin,address);
+    cout<<"student phone number : ";
+    getline(cin,phone_no);
+    cout<<"student marks: ";
+    getline(cin,marks);
+    cout<<"student id : ";
+    getline(cin,std_id);
+    file.open("studentdata.txt",ios::out|ios::app);
+    file<<name<<"*"<<rollno<<"*"<<Class<<"*"<<address<<"*"<<phone_no<<"*"<<marks<<"*"<<std_id<<endl;
+    file.close();
+    break;
+    case '2':
+    cin.ignore();
+    obj.clear_all_data();
+    break;
+    }
+
+}
+else{
+    cout<<"__________________________[Login failed]___________________________";
+    cout<<"\n wrong user && pass :";
+    cout<<"\n contact hemant for your user and pass :";
+}
+cin.ignore();
+}
+void temp::view_record(){
+    cout<<"\n=================================[All student info]============================="<<endl<<endl;
+    file.open("studentdata.txt",ios::in);
+    cout<<left<<setw(15)<<"student_id"
+    <<setw(20)<<"NAME"
+    <<setw(10)<<"ROLL_NO"
+    <<setw(10)<<"CLASS"
+    <<setw(25)<<"ADDRESS"
+    <<setw(15)<<"PHONE_NO"
+    <<setw(10)<<"MARKS"<<endl;
+    while(getline(file,name,'*')){
+    getline(file,rollno,'*');
+    getline(file,Class,'*');
+    getline(file,address,'*');
+    getline(file,phone_no,'*');
+    getline(file,marks,'*');
+    getline(file,std_id,'\n');
+     cout<<left<<setw(15)<<std_id
+    <<setw(20)<<name
+    <<setw(10)<<rollno
+    <<setw(10)<<Class
+    <<setw(25)<<address
+    <<setw(15)<<phone_no
+    <<setw(10)<<marks<<endl;
+    }
+    file.close();
+    cout<<"\n___________________________________________________________________________";
+    cin.ignore();
+ }
+    void temp::search_record(){
+        cout<<"\n========================[Search student record]======================";
+        cout<<"\nenter student id : ";
+        getline(cin,sid);
+        file.open("studentdata.txt",ios::in);
+        getline(file,name,'*');
+        getline(file,rollno,'*');
+        getline(file,Class,'*');
+        getline(file,address,'*');
+        getline(file,phone_no,'*');
+        getline(file,marks,'*');
+        getline(file,std_id,'\n');
+        while(!file.eof()){
+           if(sid==std_id){
+            cout<<"\n -________________[student found successfully]_____________-"<<endl<<endl;
+            cout<<left<<setw(15)<<"student_id"
+            <<setw(20)<<"NAME"
+            <<setw(10)<<"ROLL_NO"
+            <<setw(10)<<"CLASS"
+            <<setw(25)<<"ADDRESS"
+            <<setw(15)<<"PHONE_NO"
+            <<setw(10)<<"MARKS"<<endl;
+             cout<<left<<setw(15)<<std_id
+            <<setw(20)<<name
+            <<setw(10)<<rollno
+            <<setw(10)<<Class
+            <<setw(25)<<address
+            <<setw(15)<<phone_no
+            <<setw(10)<<marks<<endl;
+            
+        }
+         getline(file,name,'*');
+        getline(file,rollno,'*');
+        getline(file,Class,'*');
+        getline(file,address,'*');
+        getline(file,phone_no,'*');
+        getline(file,marks,'*');
+        getline(file,std_id,'\n');       
+        }
+        file.close();
+        cin.ignore();
+    }    
+ void temp::clear_all_data() {
+    ofstream file("studentdata.txt", ios::trunc); 
+    file.close();
+    cout << "\nFile cleared successfully!";
+    cin.ignore();
+ }
+
+ 
