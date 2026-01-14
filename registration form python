@@ -1,0 +1,53 @@
+from tkinter import *
+from tkinter import messagebox 
+screen = Tk()
+screen.title("registration")
+screen.geometry("400x400")
+def REGISTER():
+    NAME = NAME_info.get()
+    AGE = AGE_info.get()
+    PHONE = PHONE_info.get()
+    EMAIL = EMAIL_info.get()
+    if NAME  == "":
+         messagebox.showerror("error","please enter your name :")
+    elif AGE == "":
+        messagebox.showerror("error","please enter your age :")
+    elif PHONE == "":
+        messagebox.showerror("error","enter your phone number :")
+    elif EMAIL == "":
+        messagebox.showerror("error","enter your email :")
+    else :
+        Label(screen,font = "30",text = "submitted successfuly",fg = "green").place(x=150,y = 300)
+    with open (name+".txt","w")as f:
+        f.write("name"+NAME+"\n")
+        f.write("age:"+AGE+"\n")
+        f.write("phone:"+PHONE+"\n")
+        f.write("email:"+EMAIL+"\n")
+def Clear() :
+        NAME_Entry.delete(0,END)
+        AGE_Entry.delete(0,END)  
+        PHONE_Entry.delete(0,END)  
+        EMAIL_Entry.delete(0,END)    
+#label
+Label(screen,font = "arial 20 bold",text = "REGISTRATION FORM",bg = "red",fg = "blue").pack(fill= "both")
+Label(screen,font = "20",text = "NAME").place(x = 70,y=70)
+Label(screen,font = "20",text = "AGE").place(x = 70,y=120)
+Label(screen,font = "20",text = "PHONE").place(x = 65,y=170)
+Label(screen,font = "20",text = "EMAIL").place(x = 70,y=220)
+#ENTRY
+NAME_info = StringVar()
+AGE_info = StringVar()
+PHONE_info = StringVar()
+EMAIL_info = StringVar()
+NAME_Entry = Entry(screen,font="20",bd = "4",textvariable = NAME_info)
+NAME_Entry .place(x = 130,y=70)
+AGE_Entry =  Entry(screen,font="20",bd = "4",textvariable = AGE_info)
+AGE_Entry.place(x = 130,y=120)
+PHONE_Entry = Entry(screen,font="20",bd = "4",textvariable = PHONE_info)
+PHONE_Entry.place(x = 130,y=170)
+EMAIL_Entry = Entry(screen,font="20",bd = "4",textvariable = EMAIL_info)
+EMAIL_Entry.place(x = 130,y=220)
+#button
+Button(screen,font = "40",text = "REGISTER",command = REGISTER).place(x = 160,y=270)
+Button(screen,font = "40",text = "Clear",command = Clear).place(x = 345,y=360)
+mainloop()
