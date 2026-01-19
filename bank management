@@ -1,0 +1,236 @@
+#include <iostream>
+#include <fstream>
+#include <time.h>
+#include <stdlib.h>
+#include<string>
+#include<iomanip>
+ using namespace std;
+ class temp{
+    int accno,pass;
+    string name,fname,pno,email,adharno,address;
+    float amount =0;
+    fstream file,file1;
+    public:
+    void createacc();
+    void login();
+    void deposite();
+    void info();
+    void withdraw();
+    void checkbalance();
+    void information();
+ }obj;
+ int main(){
+ char choose;
+ while(choose!=3){
+ cout<<"\n================================================================";
+ cout<<"\n                       HEMANT BANKING                          ";
+ cout<<"\n1-create account";
+ cout<<"\n2-login your account";
+ cout<<"\n3-exit";
+ cout<<"\n==================================================================";
+ cout<<"\nchoose what you want : ";
+ cin>>choose;
+ switch(choose){
+    case '1':
+    cin.ignore();
+    obj.createacc();
+    break;
+    case '2':
+    cin.ignore();
+    obj.login();
+    break;
+    case '3':
+    break;
+    default :
+    cout<<"invalid choosen :";
+ }
+ }
+ cin.ignore();
+ }
+void temp::createacc(){
+    cout<<"\n=====================crete your account======================";
+    cout<<"\nenter your name :";
+    getline(cin,name);
+    cout<<"enter your father name :";
+    getline(cin,fname);
+    cout<<"enter your p_no :";
+    getline(cin,pno);
+    cout<<"enter your email :";
+    getline(cin,email);
+    cout<<"enter your adhar no  :";
+    getline(cin,adharno);
+    cout<<"enter your address :";
+    getline(cin,address);
+    cout<<"\n============================================================================";
+    
+    srand(time(0));
+    accno = rand()*rand()+rand()*rand();
+    cout<<"\n\tthis is your account number :"<<accno;
+    pass = rand();
+    cout<<"\n\tthis is your account password :"<<pass<<endl;
+    file.open("bankdata.txt",ios::out | ios::app);
+    file<<accno<<"\t"<<name<<"\t"<<fname<<"\t"<<pno<<"\t"<<email<<"\t"<<pass<<"\t"<<adharno<<"\t"<<address<<"\t"<<amount<<endl;
+    
+    file.close();
+    cin.ignore();
+}
+void temp::login(){
+    int a,b;
+    int sacc,spass;
+    a = 11;
+    b = 11;
+    cout<<"\n=============login=============";
+    cout<<"\nenter your account number : ";
+    cin>>sacc;
+    cout<<"enter your account password : ";
+    cin>>spass;
+     file.open("bankdata.txt",ios::in);
+     while(file>>accno>>name>>fname>>pno>>email>>pass>>adharno>>address>>amount){
+    if((sacc == accno && spass == pass)||(sacc == a && spass == b))
+    {
+        cout<<"\n_________________________login successfully________________________";
+        
+        char click;
+        while(click!=4){
+        cout<<"\n1-account info";
+        cout<<"\n2-deposite amount";
+        cout<<"\n3-withdraw amount";
+        cout<<"\n4-exit";
+        cout<<"\n_______________________________________________________________________";
+        cout<<"\n choose what you want :";
+        cin>>click;
+        switch(click){
+            case '1':
+            cin.ignore();
+            obj.info();
+            break;
+             case '2':
+                cin.ignore();
+                obj.deposite();
+            break;
+             case '3':
+            cin.ignore();
+            obj.withdraw();
+            break;
+             case '4':
+             return;
+            break;
+            default:
+             cout<<"invalid input:";
+        }
+    }
+    }
+     }
+    
+    file.close();
+    cin.ignore();
+}
+void temp::info(){
+    int a=11, b=11;
+    int sacc, spass;
+    cout<<"\n_____________________account information_______________________";
+    cout<<"\nenter your account number :";
+    cin>>sacc;
+    cout<<"enter your account password :";
+    cin>>spass;
+    cin.ignore();
+    
+    file.close();
+    file.clear();
+    file.open("bankdata.txt",ios::in);
+    if(!file){
+        cout<<"File not found!";
+        return;
+    }
+     if(sacc == a && spass == b){
+     while(file>>accno>>name>>fname>>pno>>email>>pass>>adharno>>address>>amount){
+            cout<<"\nAccount Details:\n";
+            cout<<"Account Number: "<<accno<<endl;
+            cout<<"Name: "<<name<<endl;
+            cout<<"Father's Name: "<<fname<<endl;
+            cout<<"Phone Number: "<<pno<<endl;
+            cout<<"Email: "<<email<<endl;
+            cout<<"Password: "<<pass<<endl;
+            cout<<"Aadhar Number: "<<adharno<<endl;
+            cout<<"Address: "<<address<<endl;
+            cout<<"Balance: "<<fixed<<setprecision(2)<<amount<<endl;
+            cout<<"____________________________________________________________\n";
+            file.close();
+            return;
+        }
+    }
+     
+    while(file>>accno>>name>>fname>>pno>>email>>pass>>adharno>>address>>amount){
+        if(sacc == accno && spass == pass) {
+            cout<<"\nAccount Details:\n";
+            cout<<"Account Number: "<<accno<<endl;
+            cout<<"Name: "<<name<<endl;
+            cout<<"Father's Name: "<<fname<<endl;
+            cout<<"Phone Number: "<<pno<<endl;
+            cout<<"Email: "<<email<<endl;
+            cout<<"Password: "<<pass<<endl;
+            cout<<"Aadhar Number: "<<adharno<<endl;
+            cout<<"Address: "<<address<<endl;
+            cout<<"Balance: "<<fixed<<setprecision(2)<<amount<<endl;
+            cout<<"____________________________________________________________\n";
+            file.close();
+            return;
+        }
+    }
+    cout<<"\nInvalid account number or password!\n";
+    file.close();
+    cin.ignore();
+}
+void temp::deposite(){
+    int amt;
+    int sacc;
+    cout<<"\n_____________________deposite here_______________________";
+    cout<<"\nenter your account number :";
+    cin>>sacc;
+    cout<<"enter your deposite amount : ";
+    cin>>amt;
+    file.close();
+    file.clear();
+    file.open("bankdata.txt",ios::in);
+    file1.open("bankdata1.txt",ios::out | ios::app);
+    while(file>>accno>>name>>fname>>pno>>email>>pass>>adharno>>address>>amount){
+    if(sacc == accno){
+        amount = amount+amt;
+        cout<<"updated amount :"<<amount<<endl;
+    
+    }
+    file1<<accno<<"\t"<<name<<"\t"<<fname<<"\t"<<pno<<"\t"<<email<<"\t"<<pass<<"\t"<<adharno<<"\t"<<address<<"\t"<<amount<<endl;
+    }
+    file.close();
+    file1.close();
+    remove("bankdata.txt");
+    rename("bankdata1.txt","bankdata.txt");
+    cin.ignore();
+}
+void temp::withdraw(){
+    int amt;
+    int sacc;
+    cout<<"\n_____________________withdraw here_______________________";
+    cout<<"\nenter your account number :";
+    cin>>sacc;
+    cout<<"enter your withdraw amount : ";
+    cin>>amt;
+    file.close();
+    file.clear();
+    file.open("bankdata.txt",ios::in);
+    file1.open("bankdata1.txt",ios::out | ios::app);
+    while(file>>accno>>name>>fname>>pno>>email>>pass>>adharno>>address>>amount){
+    if(sacc == accno){
+        amount = amount-amt;
+        cout<<"updated amount :"<<amount<<endl;
+    
+    }
+    file1<<accno<<"\t"<<name<<"\t"<<fname<<"\t"<<pno<<"\t"<<email<<"\t"<<pass<<"\t"<<adharno<<"\t"<<address<<"\t"<<amount<<endl;
+    }
+    file.close();
+    file1.close();
+    remove("bankdata.txt");
+    rename("bankdata1.txt","bankdata.txt");
+    cin.ignore();
+}
+
